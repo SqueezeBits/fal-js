@@ -100,3 +100,53 @@ Check the [good first issue queue](https://github.com/fal-ai/fal-js/labels/good+
 ## License
 
 Distributed under the MIT License. See [LICENSE](https://github.com/fal-ai/fal-js/blob/main/LICENSE) for more information.
+
+## Custom Implementation Guide
+
+### 1. Build Base Image
+```bash
+docker build -t base-fal-image .
+```
+
+### 2. Create Application Dockerfile
+```dockerfile
+FROM base-fal-image:latest
+
+WORKDIR /app
+
+RUN npm install /tmp/client.tgz
+
+COPY ./test.js ./
+RUN echo '{"type": "module"}' > package.json
+CMD ["node", "test.js"]
+```
+
+### 3. Example Application Code
+```javascript
+import { fal } from "@fal-ai/client"
+
+async function main() {
+    // Configure fal client
+    fal.config({
+        credentials: "YOUR_FAL_CREDENTIALS"
+    })
+
+    console.log("Starting image generation...")
+    
+    // Submit image generation request
+    const submitResult = await fal.queue.submit("fal-ai/flux/dev", {
+        input: {
+            prompt: "Stephen Curry",
+            batch_size: -1,
+            num_images: 1,
+        },
+    })
+
+    console.log("Generation complete")
+    console.log("Submit result:", submitResult)
+    
+    const requestId = submitResult.request_id
+}
+
+main()
+```
