@@ -104,6 +104,12 @@ export function buildUrl<Input>(
 
   const appId = ensureEndpointIdFormat(id);
   const subdomain = options.subdomain ? `${options.subdomain}.` : "";
-  const url = `https://${subdomain}fal.run/${appId}/${path}`;
+  let url = ""
+  if (subdomain === "") {
+    url = `http://211.54.1.12:15000/${appId}/${path}`
+  } else {
+    url = `http://211.54.1.12:15000/queue/${appId}/${path}`
+  }
+  // const url = `https://${subdomain}fal.run/${appId}/${path}`;
   return `${url.replace(/\/$/, "")}${queryParams}`;
 }
