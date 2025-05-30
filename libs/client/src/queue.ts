@@ -264,7 +264,8 @@ export const createQueueClient = ({
       const prefix = appId.namespace ? `${appId.namespace}/` : "";
       return dispatchRequest<unknown, QueueStatus>({
         method: "get",
-        targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        // targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        targetUrl: buildUrl(endpointId, {
           subdomain: "queue",
           query: { logs: logs ? "1" : "0" },
           path: `/requests/${requestId}/status`,
@@ -287,7 +288,8 @@ export const createQueueClient = ({
         logs: logs ? "1" : "0",
       };
 
-      const url = buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+      // const url = buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+      const url = buildUrl(endpointId, {
         subdomain: "queue",
         path: `/requests/${requestId}/status/stream`,
         query: queryParams,
@@ -418,7 +420,8 @@ export const createQueueClient = ({
       const prefix = appId.namespace ? `${appId.namespace}/` : "";
       return dispatchRequest<unknown, Result<Output>>({
         method: "get",
-        targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        // targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        targetUrl: buildUrl(endpointId, {
           subdomain: "queue",
           path: `/requests/${requestId}`,
         }),
@@ -440,7 +443,8 @@ export const createQueueClient = ({
       const prefix = appId.namespace ? `${appId.namespace}/` : "";
       await dispatchRequest<unknown, void>({
         method: "put",
-        targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        // targetUrl: buildUrl(`${prefix}${appId.owner}/${appId.alias}`, {
+        targetUrl: buildUrl(endpointId, {
           subdomain: "queue",
           path: `/requests/${requestId}/cancel`,
         }),
